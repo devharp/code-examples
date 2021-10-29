@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+video {
+    position: absolute;
+}
+
+button{
+    position: absolute;
+    padding: 10px;
+    bottom: 0;
+    /* visibility: hidden; */
+}
+
+#start{
+    left: 10%;
+}
+
+#stop{
+    right: 10%;
+}
