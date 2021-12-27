@@ -1,0 +1,54 @@
+    <svg x="0" y="0" height="900" width="900" xmlns="http://www.w3.org/2000/svg">
+        <style>
+            svg{
+                animation: svg-move 2.5s infinite steps(75);
+                
+            }
+            @keyframes svg-move{
+                0%{
+                    transform: rotate(-45deg);
+                }
+                100%{
+                    transform: rotate(-135deg);
+                }
+            }
+            path {
+                stroke-dasharray: 2000;
+                animation: arc-closing 2.5s infinite steps(75),
+                    arc-rotate-step 2.5s steps(1) infinite;
+            }
+
+            @keyframes arc-closing {
+                0% {
+                    stroke-dashoffset: 600;
+                }
+                
+                50% {
+                    stroke-dashoffset: 2000;
+                }                
+
+                100% {
+                    stroke-dashoffset: 600;
+                }
+                
+            }
+
+            @keyframes arc-rotate-step {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                50% {
+                    transform: scaleX(-1) rotate(180deg) translate(0px, -900px);
+
+                }
+
+                100% {
+                    transform: rotate(0deg);
+                }
+
+            }
+        </style>
+        <!-- <rect x="0" y="0" height="900" width="1000" fill="black" /> -->
+        <path d="M150 450 A 300 300 0 1 1 450 750" fill="none" stroke="white" stroke-width="100" />
+    </svg>
