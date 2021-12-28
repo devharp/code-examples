@@ -50,5 +50,5 @@
             }
         </style>
         <!-- <rect x="0" y="0" height="900" width="1000" fill="black" /> -->
-        <path d="M150 450 A 300 300 0 1 1 450 750" fill="none" stroke="white" stroke-width="100" />
+        <path d="M150 450 A 300 300 0 1 1 450 750" fill="none" stroke="black" stroke-width="100" />
     </svg>
