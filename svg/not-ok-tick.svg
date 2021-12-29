@@ -1,0 +1,56 @@
+<svg height="450" width="450" xmlns="http://www.w3.org/2000/svg">
+        <style>
+            #g1 {
+                transform: translate(225px, 225px);
+            }
+            #g1 circle {
+                fill: none;
+                stroke: rgb(230, 47, 2);
+                stroke-dasharray: 1257.14;
+                stroke-dashoffset: 1257.14;
+                stroke-width: 40px;
+                transform: rotate(90deg) scaleX(1) translate(-225px, -225px);
+                animation: circle-anime 0.5s linear forwards;
+            }
+            @keyframes circle-anime {
+                to {
+                    stroke-dashoffset: 0;
+                    fill: rgb(230, 47, 2);
+                    /*stroke: rgb(230, 47, 2);*/
+                }
+            }
+            #g2 {
+                transform: translate(225px, 225px);
+            }
+            #g2 path {
+                stroke: white;
+                stroke-width: 40px;
+                stroke-dasharray: 212.132;
+                stroke-dashoffset: 212.132;
+                transform: translate(-75px, -75px);
+            }
+
+            #g2 #cross1{
+                animation: tick-anime .3s linear forwards;
+                animation-delay: .3s;
+            }
+            #g2 #cross2{
+                animation: tick-anime .3s linear forwards;
+                animation-delay: .6s;
+            }
+
+            @keyframes tick-anime {
+                to {
+                    stroke-dashoffset: 0;
+                }
+            }
+        </style>
+
+        <g id="g1">
+            <circle r="200" cx="225" cy="225" />
+        </g>
+        <g id="g2">
+            <path id="cross1" d="M0 0 L 150 150" />
+            <path id="cross2" d="M150 0 L 0 150" />
+        </g>
+    </svg>
