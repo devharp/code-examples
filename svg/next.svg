@@ -1,0 +1,70 @@
+<svg height="450" width="450" xmlns="http://www.w3.org/2000/svg">
+        <style>
+            #g1 {
+                transform: translate(225px, 225px);
+            }
+            #g1 circle {
+                stroke: #2C4AF5;
+
+            }
+            #g1 #circle1 {
+                fill: none;
+                stroke-dasharray: 1257.14;
+                stroke-dashoffset: 1257.14;
+                /*stroke-dashoffset: 0;*/
+                stroke-width: 40px;
+                transform: rotate(90deg) scaleX(1) translate(-225px, -225px);
+                animation: circle1-anime 1s linear forwards;
+            }
+            @keyframes circle1-anime {
+                to {
+                    stroke-dashoffset: 0;
+                    /*stroke: rgb(230, 47, 2);*/
+                }
+            }
+            #g1 #circle2{
+                r: 0px;
+                fill: #2C4AF5;
+                animation: circle2-anime 1s linear forwards;
+            }
+            @keyframes circle2-anime {
+                50%{
+                    r: 90px;
+                }
+                80%{
+                    r: 60px;
+                }
+                to{
+                    r: 70px;
+                }
+            }
+            #g1 #circle3{
+                r: 0px;
+                /*fill: #383838;*/
+                fill: #000;
+                stroke: none;
+                opacity: 1;
+                animation: circle3-anime 0.5s linear forwards;
+            }
+            @keyframes circle3-anime {
+                99%{
+                    opacity: 1;
+                }
+                to{
+                    r: 120px;
+                    fill: white;
+                    opacity: 0;
+                    /*display: none;*/
+                }
+            }
+            
+            
+        </style>
+
+        <g id="g1">
+            <circle id="circle3" cx="0" cy="0" />
+            <circle id="circle1" r="200" cx="225" cy="225" />
+            <circle id="circle2" fill="blue" cx="0" cy="0" />
+        </g>
+        
+    </svg>
