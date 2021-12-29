@@ -1,0 +1,22 @@
+<svg height="450" width="450" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="a" x="-0.18" y="0.40" width="1.36" height="1.36">
+                <feGaussianBlur stdDeviation="15" />
+            </filter>
+        </defs>
+        <style>
+            rect{
+                transform: translateY(-50px);
+            }
+        </style>
+        <circle
+        cx="225"
+        cy="225"
+        r="94"
+        fill="#2C4AF5"
+        filter="url(#a)"/>
+        <rect x="0" y="225" height="50" width="450" fill="white" />
+        <path fill="#2C4AF5" d="M225 225 l-90 0 a 90 90 0 0 1 90 -90 a 90 90 0 0 1 90 90 l -90 0" />
+
+        
+    </svg>
