@@ -1,4 +1,4 @@
-let data = {
+let data1 = {
     "date": "22-01-2021",
     "time": "12:03:14",
     "name": "John Wick",
@@ -274,5 +274,84 @@ function generateSVG(payload_bill_pdf_svg) {
     return result;
 }
 
-document.querySelector('#bill').innerHTML = generateSVG(data);
-window.print();
+function writeSVGToDOM() {
+    document.querySelector('body').innerHTML += '<svg id="bill" height="297mm" width="210mm" xmlns="http://www.w3.org/2000/svg"></svg>';
+    document.querySelector('#bill').innerHTML = generateSVG(data);
+}
+
+function writeHTMLToPrintPDF(data, elem) {
+    pdf_html_data = '<div id="top">\
+    <div id="left-data">\
+        <div class="left data">\
+            <p id="name">Name: ' + data.name + '</p>\
+        </div>\
+        <div class="left data">\
+            <p id="id">ID: ' + data.id + '</p>\
+        </div>\
+        <div class="left data">\
+            <p id="address">Address: ' + data.address + '</p>\
+        </div>\
+        <div class="left data">\
+            <p id="info">Info: ' + data.info + '</p>\
+        </div>\
+        <div class="left data">\
+            <p id="items-total">Total Items: ' + data.items.length + '</p>\
+        </div>\
+    </div>\
+    <div id="right-data">\
+        <div id="amount">\
+            <div class="right data">\
+                <p id="total-amount">Total Amount: ' + data.amount.total + '</p>\
+            </div>\
+            <div class="right data">\
+                <p id="duepaid-amount">Due: ' + data.amount.due + ', Paid: ' + data.amount.paid + '</p>\
+            </div>\
+        </div>\
+        <div id="date-time">\
+            <div class="right data">\
+                <p id="date">Date: ' + data.date + '</p>\
+            </div>\
+            <div class="right data">\
+                <p id="time">Time: ' + data.time + '</p>\
+            </div>\
+        </div>\
+    </div>\
+</div>\
+<div id="table-container">\
+    <table>\
+        <thead>\
+            <tr class="items headings invert-color">\
+                <th class="head name all">Item Name</th>\
+                <th class="head price all">Price</th>\
+                <th class="head quantity all">Quantity</th>\
+                <th class="head total all">Sub Total</th>\
+            </tr>\
+        </thead>\
+        <tbody id="items-list">';
+
+    for (let i = 0; i < data.items.length; i++) {
+        pdf_html_data += '\n<tr class="items data">\
+                <td class="values name all">' + data.items[i].name + '</td>\
+                <td class="values price all">' + data.items[i].price + '</td>\
+                <td class="values quantity all">' + data.items[i].quantity + '</td>\
+                <td class="values total all">' + data.items[i].subtotal + '</td>\
+            </tr>';
+    }
+
+
+    pdf_html_data += '</tbody>\
+        <tbody id="items-list-total">\
+            <tr class="items final invert-color">\
+                <td class="last name all">Total</td>\
+                <td class="last price all"></td>\
+                <td class="last quantity all"></td>\
+                <td class="last total all">' + data.amount.total + '</td>\
+            </tr>\
+        </tbody>\
+    </table>\
+</div>';
+
+    elem.innerHTML = pdf_html_data;
+}
+
+writeHTMLToPrintPDF(data1, document.querySelector('#pdf-print'));
