@@ -1,0 +1,29 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.root {
+    /* background-color: red; */
+    height: 100%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+body::-webkit-scrollbar {
+    width: 4px;
+    padding: 2px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    width: 2px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1px;
+}
