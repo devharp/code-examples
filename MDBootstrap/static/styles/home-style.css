@@ -2,6 +2,14 @@
     background-color: rgba(255, 255, 255, 0.7);
 
 }
+
+.harp-first-mid-comp2 #quota-img{
+    background: rgba(255, 0, 0, 1);
+}
+
+.harp-first-mid-comp2 #quota-img img{
+    -webkit-mask-image: linear-gradient(20deg, transparent 1%, rgba(0, 0, 0, 1) 100%);
+}
 @media only screen and (min-width: 993px){
     /* Desktop or Full Screen */
     .harp-mid-holder{
@@ -25,6 +33,47 @@
         height: 150px;
         width: 150px;
         border-radius: 0;
+    }
+    
+    .harp-first-mid-comp2{
+        display: flex;
+        flex-direction: row;
+        /* justify-content: space-between; */
+        /* background-color: aliceblue; */
+    }
+    
+    .harp-first-mid-comp2 #quota-img{
+        /* height: 377px; */
+        /* width: auto; */
+        margin: 2px;
+        /* background: rgba(255, 0, 0, 1); */
+        display: flex;
+        justify-content: start;
+        /* width: 100px; */
+        /* padding: 24px; */
+        /* height: min-content; */
+    }
+    .harp-first-mid-comp2 #quota-img img{
+        height: 377px;
+        /* -webkit-mask-image: linear-gradient(20deg, transparent 1%, rgba(0, 0, 0, 1) 100%); */
+        /* display: none; */
+    }
+    .harp-first-mid-comp2 #quota-form{
+        /* width: auto; */
+        /* padding: 24px; */
+        flex-grow: 1;
+        margin: 2px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+    }
+    .harp-first-mid-comp2 #quota-form #form{
+        /* width: 500px; */
+        width: auto;
+        /* background-color: red; */
+        flex-grow: 1;
     }
 
 }
@@ -53,6 +102,32 @@
         height: 150px;
         width: 150px;
         border-radius: 0;
+    }
+    
+    .harp-first-mid-comp2{
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        
+    }
+    
+    .harp-first-mid-comp2 #quota-img{
+        margin: 2px;
+    }
+    .harp-first-mid-comp2 #quota-img img{
+        height: 300px;
+        /* width: 400px; */
+        overflow: hidden;
+        /* margin: 2px; */
+
+    }
+
+    .harp-first-mid-comp2 > #quota-form{
+        height: auto;
+        /* width: 344px; */
+        padding: 10px;
+        margin: 2px;
+
     }
 
 }
@@ -86,5 +161,32 @@
         height: 150px;
         width: 150px;
         border-radius: 0;
+    }
+
+    .harp-first-mid-comp2{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .harp-first-mid-comp2 #quota-img{
+        /* height: max-content; */
+        /* width: max-content; */
+        /* background-color: red; */
+        flex-grow: 1;
+        display: flex;
+        margin: 2px;
+
+    }
+    .harp-first-mid-comp2 #quota-img img{
+        /* height: ; */
+        /* width: auto; */
+        flex-grow: 1;
+
+    }
+    .harp-first-mid-comp2 > #quota-form{
+        height: auto;
+        width: auto;
+        /* padding: 24px; */
+        margin: 2px;
     }
 }

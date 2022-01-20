@@ -10,7 +10,7 @@ body{
 }
 
 #harp-mid-section{
-    background-color: rgba(255, 255, 255, 0.918);
+    background-color: rgba(245,245,245, 0.9);
     /* background-color: #fff; */
 }
 
@@ -61,7 +61,7 @@ body::-webkit-scrollbar-thumb {
     /* font-family: 'Open Sans'; */
     font-family: 'Poppins';
     font-weight: 800;
-    color: black;
+    color: rgb(0, 0, 0, 0.8);
     /* background-color: black; */
     /* padding: 2px 5px; */
     /* width: max-content; */
@@ -73,7 +73,7 @@ body::-webkit-scrollbar-thumb {
     font-family: 'Open Sans';
     /* font-family: 'Poppins'; */
     font-weight: 900;
-    color: black;
+    color: rgb(0, 0, 0, 0.8);
     /* background-color: black; */
     /* padding: 2px 5px; */
     /* width: max-content; */
@@ -86,8 +86,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 .harp-text-active:active{
-    background-color: black;
+    /* background-color: black;*/
     color: white;
+    background-color: #1266f1;
+    box-shadow: 0 0px 1px 1px #1266f1;
+
 }
 
 .harp-outline{
