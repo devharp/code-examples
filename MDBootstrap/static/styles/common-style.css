@@ -6,10 +6,26 @@ body {
 
 body{
     background-image: url('../bg-images/body-bg.jpg');
+
 }
 
 #harp-mid-section{
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.918);
+    /* background-color: #fff; */
+}
+
+.harp-bg-transparent-55{
+    background-color: rgba(255, 255, 255, 0.55);
+}
+.harp-bg-transparent{
+    /* background-color: rgba(255, 255, 255, 0); */
+    /* background-color: red; */
+    background: transparent;
+}
+
+.harp-box-shadow{
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15),0 4px 6px -2px rgba(0,0,0,0.15);
+
 }
 
 .root {
@@ -42,8 +58,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .harp-text-mid{
-    font-family: 'Open Sans';
-    font-weight: 700;
+    /* font-family: 'Open Sans'; */
+    font-family: 'Poppins';
+    font-weight: 800;
     color: black;
     /* background-color: black; */
     /* padding: 2px 5px; */
@@ -54,7 +71,8 @@ body::-webkit-scrollbar-thumb {
 
 .harp-text-heavy{
     font-family: 'Open Sans';
-    font-weight: 800;
+    /* font-family: 'Poppins'; */
+    font-weight: 900;
     color: black;
     /* background-color: black; */
     /* padding: 2px 5px; */
