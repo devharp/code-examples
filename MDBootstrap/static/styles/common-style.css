@@ -96,3 +96,55 @@ body::-webkit-scrollbar-thumb {
 .harp-outline{
     box-shadow: 0 0px 1px 1px rgba(0,0,0,1);
 }
+
+.harp-w-50{
+    width: 50%;
+}
+
+@media only screen and (min-width: 993px){
+    /* Desktop Screen*/
+    .harp-w-lg-0{
+        width: 0;
+    }
+    .harp-w-lg-50{
+        width: 50%;
+    }
+    .harp-w-lg-75{
+        width: 75%;
+    }
+    .harp-w-lg-85{
+        width: 85%;
+    }
+    .harp-w-lg-100{
+        width: 100%;
+    }
+    
+    
+}
+
+@media only screen and (max-width: 992px){
+    /* iPad or Tablet Screen */
+    .harp-w-md-50{
+        width: 50%;
+    }
+    .harp-w-md-100{
+        width: 100%;
+    }
+    .harp-w-md-0{
+        width: 0%;
+    }
+    
+}
+
+@media only screen and (max-width: 767px){
+    /* Mobile Screen */
+    .harp-w-sm-50{
+        width: 50%;
+    }
+    .harp-w-sm-100{
+        width: 100%;
+    }
+    .harp-w-sm-0{
+        width: 0%;
+    }
+}
