@@ -151,6 +151,9 @@ body::-webkit-scrollbar-thumb {
     .harp-w-lg-100{
         width: 100%;
     }
+    .harp-w-lg-500px{
+        width: 500px;
+    }
 
     .harp-mw-lg-40{
         max-width: 40%;
@@ -183,6 +186,9 @@ body::-webkit-scrollbar-thumb {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
     }
+    .harp-w-md-300px{
+        width: 300px;
+    }
     
 }
 
@@ -205,5 +211,8 @@ body::-webkit-scrollbar-thumb {
     .harp-grid-sm-1-2{
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+    .harp-w-sm-300px{
+        width: 300px;
     }
 }
