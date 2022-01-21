@@ -1,0 +1,19 @@
+.card{
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 0;
+    margin: 2px;
+
+}
+
+@media only screen and (min-width: 993px){
+    /* Desktop or Full Screen */
+}
+@media only screen and (max-width: 992px){
+    /* iPad or Tablet Screen */
+
+}
+
+@media only screen and (max-width: 767px){
+    /* Mobile Screen */
+
+}

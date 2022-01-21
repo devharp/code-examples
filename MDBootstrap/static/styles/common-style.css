@@ -6,7 +6,6 @@ body {
 
 body{
     background-image: url('../bg-images/body-bg.jpg');
-
 }
 
 #harp-mid-section{
@@ -30,7 +29,7 @@ body{
 
 .root {
     /* background-color: red; */
-    height: 100%;
+    /* height: 100%; */
 }
 
 .cursor-pointer {
@@ -101,13 +100,41 @@ body::-webkit-scrollbar-thumb {
     width: 50%;
 }
 
+.harp-font{
+    font-family: 'Poppins';
+}
+.harp-display-7 {
+    font-size: calc(1rem + 1.5vw);
+    font-weight: 300;
+    line-height: 1.2;
+}
+.harp-display-8 {
+    font-size: calc(0.8rem + 1.5vw);
+    font-weight: 300;
+    line-height: 1.2;
+}
+.harp-display-9 {
+    font-size: calc(0.5rem + 1.5vw);
+    font-weight: 300;
+    line-height: 1.2;
+}
+
 @media only screen and (min-width: 993px){
     /* Desktop Screen*/
     .harp-w-lg-0{
         width: 0;
     }
+    .harp-w-lg-10{
+        width: 10%;
+    }
+    .harp-w-lg-20{
+        width: 20%;
+    }
     .harp-w-lg-25{
         width: 25%;
+    }
+    .harp-w-lg-40{
+        width: 40%;
     }
     .harp-w-lg-50{
         width: 50%;
@@ -115,11 +142,18 @@ body::-webkit-scrollbar-thumb {
     .harp-w-lg-75{
         width: 75%;
     }
+    .harp-w-lg-80{
+        width: 80%;
+    }
     .harp-w-lg-85{
         width: 85%;
     }
     .harp-w-lg-100{
         width: 100%;
+    }
+
+    .harp-mw-lg-40{
+        max-width: 40%;
     }
     
     .harp-grid-lg-1-1-1{
