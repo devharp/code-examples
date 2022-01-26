@@ -114,7 +114,7 @@
                         </div>
     
                         <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block mb-4" href="#">Sign in</button>
+                        <button type="submit" class="btn btn-primary btn-block mb-4" onclick="location.href='/home';">Sign in</button>
     
                         <!-- Register buttons -->
                         <div class="text-center mb-5">
@@ -271,6 +271,11 @@
 
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+    <script>
+        function gotoPage(url){
+            window.open('/home');
+        }
+    </script>
 </body>
 
 </html>
