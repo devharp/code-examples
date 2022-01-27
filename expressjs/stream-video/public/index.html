@@ -6,8 +6,28 @@
 		<title>Express JS</title>
 	</head>
 	<body>
-		<video id="player" width="50%" controls muted="muted" autoplay>
-			<source src="/video" type="video/mp4">
-		</video>
+		<style>
+			#container .player{
+				position: absolute;
+			}
+		</style>
+		<div id="container">
+			<video class="player" onended="videoEnded()" width="50%" muted="muted" style="z-index: 1;" autoplay>
+				<source src="/video/out00.mp4" type="video/mp4">
+			</video>
+			<video class="player"width="50%" muted="muted">
+				<source src="/video/out01.mp4" type="video/mp4">
+			</video>
+		</div>
+		
+
+		<script>
+			let players = [document.getElementsByClassName('player')[0], document.getElementsByClassName('player')[1]];
+			
+			function videoEnded(){
+				players[0].style.display = 'none';
+				players[1].play();
+			}
+		</script>
 	</body>
 </html>
