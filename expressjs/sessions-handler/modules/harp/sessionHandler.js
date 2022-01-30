@@ -43,13 +43,13 @@ function sessionHandler(req, res) {
     } catch (error) {
         switch (error.name) {
             case 'SyntaxError':
-                console.log('SyntaxError');
+                // console.log('SyntaxError');
                 break;
             case 'CookieNotDefinedError':
-                console.log('CookieNotDefinedError');
+                // console.log('CookieNotDefinedError');
                 break;
             case 'WrongCookieError':
-                console.log('WrongCookieError');
+                // console.log('WrongCookieError');
                 break;
             default:
                 console.log(error);
@@ -57,18 +57,10 @@ function sessionHandler(req, res) {
         }
     }
     
-    console.log('redirecting');
+    // console.log('redirecting');
     return status;
-
 }
 
-function genHexString(len) {
-    let str = '';
-    for (let i = 0; i < len; i++) {
-        str += (parseInt(Math.random() * 255)).toString(16);
-    }
-    return str;
-}
 
 function validateUser(sessionid, nodeid) {
     for (let i = 0; i < SESSIONS_TABLE.length; i++) {

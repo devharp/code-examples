@@ -1,29 +1,32 @@
 const express = require('express');
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http)
 const sessionHandler = require('./modules/harp/sessionHandler').sessionHandler;
-const expressSessions = require('express-session');
-const { JSONCookie } = require('cookie-parser');
+const utils = require('./modules/harp/utils');
+// const expressSessions = require('express-session');
+// const { JSONCookie } = require('cookie-parser');
 
 // app.use(cookieParser());
-
+let cookie_status;
 app.use(function(req, res, next){
     let cookie = req.headers.cookie;
-    sessionHandler(req, res, next)
-    /*if(cookie){
-        console.log(JSON.parse(cookie));
-
-    }
-    else{
-        console.log('No Cookie found hence creating one');
-        console.log(Math.floor(Math.random()*255).toString(16));
-    }*/
-    // console.log('Here');
+    cookie_status = sessionHandler(req, res, next);
+    console.log('cookie status: ', cookie_status);
+    
     next();
 });
 
-// app.use(express.static(__dirname + '/public'));
-app.get('/', function(req, res){
+app.use('/', express.static('public'));
+/*app.get('/', function(req, res){
     res.sendFile(__dirname + '/public/index.html');
+});*/
+
+io.on('connection', function(socket){
+    if (!cookie_status){
+        console.log('cookie not found, hence creating one');
+        socket.emit('create-cookie', JSON.stringify({session: utils.genHexString(60), node: utils.genHexString(60)}));
+    }
 });
 
-app.listen(3000);
+http.listen(3000);
