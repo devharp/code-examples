@@ -10,11 +10,22 @@ const utils = require('./modules/harp/utils');
 // app.use(cookieParser());
 let cookie_status;
 app.use(function(req, res, next){
-    let cookie = req.headers.cookie;
     cookie_status = sessionHandler(req, res, next);
     console.log('cookie status: ', cookie_status);
-    
-    next();
+    // console.log('cookie: ', cookie);
+    // (cookie_status) ? next() : res.send('None Shall Pass');
+    console.log(req.originalUrl);
+    if(!cookie_status){
+        if(req.originalUrl === '/'){
+            next();
+        }
+        else{
+            res.redirect('/')
+        }
+    }
+    else{
+        next();
+    }
 });
 
 app.use('/', express.static('public'));
@@ -22,10 +33,11 @@ app.use('/', express.static('public'));
     res.sendFile(__dirname + '/public/index.html');
 });*/
 
+
 io.on('connection', function(socket){
     if (!cookie_status){
-        console.log('cookie not found, hence creating one');
-        socket.emit('create-cookie', JSON.stringify({session: utils.genHexString(60), node: utils.genHexString(60)}));
+        // console.log('cookie not found');
+        // socket.emit('create-cookie', JSON.stringify({session: utils.genHexString(60), node: utils.genHexString(60)}));
     }
 });
 

@@ -2,3 +2,4 @@ node_modules/
 video/
 received/
 ssl/
+public/received/
