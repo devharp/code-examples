@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./socket.io.min.js"></script>
+    <script src="./peerjs.min.js"></script>
+</head>
+<body>
+    Hello
+    <script>
+        const peer = new Peer(undefined, {
+            host: '/',
+            port: 3000,
+            path: '/peerjs'
+        });
+        const socket = io();
+        
+        socket.on('connect', function(){
+
+        });
+        
+        
+        
+        // --- x ---- x ---- x --- //
+        
+        peer.on('open', function(id){
+            socket.emit('test', id);
+        });
+
+
+    </script>
+</body>
+</html>

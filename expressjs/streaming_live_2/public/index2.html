@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.11.0/simplepeer.min.js"
+        integrity="sha512-0f7Ahsuvr+/P2btTY4mZIw9Vl23lS6LY/Y7amdkmUg2dqsUF+cTe4QjWvj/NIBHJoGksOiqndKQuI9yzn2hB0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+    <div class="container" style="height: 500px; width: 500px;">
+        <video autoplay></video>
+    </div>
+    <script>
+        console.log('Client working');
+
+        const socket = io();
+        const video = document.querySelector('.container video');
+        function init() {
+
+            socket.on('connect', function (data) {
+
+                // socket.emit('signal', 'hello');
+                // console.log('data sent');
+
+                let peer = new SimplePeer({initiator: false});
+                peer.on('stream', function (stream) {
+                    // let a = URL.createObjectURL(stream);
+                    // video.srcObject = stream;
+                    video.srcObject = stream;
+                    // console.log(stream.getTracks()[0]);
+                });
+                peer.on('signal', data => {
+                    // console.log(data);
+                    socket.emit('signal', data);
+                });
+                socket.on('signal', data => {
+                    // console.log(data);
+                    // socket.emit('signal', data);
+                    peer.signal(data)
+                });
+
+            });
+
+        }
+
+
+
+
+        init();
+    </script>
+</body>
+
+</html>
