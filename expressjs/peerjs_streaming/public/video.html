@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container"><video></video></div>
+    <div class="container"><video muted></video></div>
     <style>
         html, body{
             width: 100%;
@@ -28,7 +28,7 @@
         const socket = io();
         const peer = new Peer(undefined, {
             host: '/',
-            port: 3000,
+            port: 3001,
             path: '/peerjs'
         });
         // const peer = new Peer({

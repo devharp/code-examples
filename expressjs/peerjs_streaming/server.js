@@ -14,7 +14,7 @@ const io = new Server(httpsServer);
 const peerServer = peer.ExpressPeerServer(httpsServer);
 let sockets = [];
 let peersockets = [];
-const HTTPS_PORT = 3000;
+const HTTPS_PORT = 3001;
 
 app.use(express.static(__dirname + '/public'));
 app.use('/peerjs', peerServer);

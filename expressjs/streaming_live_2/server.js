@@ -12,7 +12,7 @@ const httpServer = createServer({
   }, app);
 
 
-const EXPRESS_PORT = 3000;
+const EXPRESS_PORT = 3001;
 let sockets = [];
 
 app.use(express.raw());
