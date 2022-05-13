@@ -1,10 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const fs = require('fs');
-const path = require('path');
-const keys = { key: fs.readFileSync(path.join(__dirname, 'keys', 'key.pem')), cert: fs.readFileSync(path.join(__dirname, 'keys', 'key.cert')) }
-const http = require('https').createServer(keys, app);
+const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 let peerids = [];
