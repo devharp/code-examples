@@ -159,13 +159,31 @@
                 peer.on('call', call => {
                     navigator.mediaDevices.getUserMedia({
                             video: {
-                                height: 200,
-                                width: 200
+                                height: 500,
+                                width: 500
                             },
                             audio: false
                         })
                         .then(stream => {
                             call.answer(stream);
+
+                            call.on('stream', rstream => {
+                                static_video_pic.style.display = 'none';
+                                avstreamid.classList.remove('d-none');
+                                avstreamid.srcObject = rstream;
+
+                                const avstatus = document.getElementsByClassName('av-status-label');
+                                avstatus[0].innerHTML = '<b>LIVE</b>';
+                                avstatus[0].classList.remove('bg-dark');
+                                avstatus[0].classList.add('bg-danger');
+
+                                avstatus[1].innerHTML = '<b>STREAMING</b>';
+                                avstatus[1].classList.remove('text-dark');
+                                avstatus[1].classList.add('text-danger');
+                                avstatus[1].style.borderColor = 'rgba(249,49,84,1)';
+                                // avstatus[1].style.color = 'rgba(249,49,84,1)';
+
+                            });
                         });
                 });
 
