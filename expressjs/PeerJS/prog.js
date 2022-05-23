@@ -1,66 +1,79 @@
 require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+
+const http = require('https');
 const express = require('express');
 const app = express();
-const fs = require('fs');
-const path = require('path');
-const keys = { key: fs.readFileSync(path.join(__dirname, 'keys', 'key.pem')), cert: fs.readFileSync(path.join(__dirname, 'keys', 'key.cert')) }
-const http = require('https').createServer(keys, app);
-const io = require('socket.io')(http);
+const http_server = http.createServer({ key: fs.readFileSync(path.join(__dirname, 'keys', 'key.pem')), cert: fs.readFileSync(path.join(__dirname, 'keys', 'key.cert')) }, app);
+const io = require('socket.io')(http_server);
 
-let peerids = [];
+
+const peerhandler = require('./modules/peerhandler');
+const REQUEST_TYPES = require('./modules/constants/requesttypes.json')
 
 app.set('view engine', 'ejs');
+app.use(express.text());
 
-app.use((req, res, next) => {
-    // console.log('Here');
-    next();
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.render('pages/index', { text: 'Harpreet Singh' });
+    res.render('index');
 });
 
-io.on('connection', (socket) => {
-    // console.log('user connected');
+app.get('/iceservers.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'modules', 'constants', 'iceservers.js'));
+});
 
-    socket.on('peer-id', data => {
-        console.log('peer joined: ', data);
-        peerids.push({ socket, peerid: data });
-        let peeri = [];
-        peerids.map((e, i) => {
-            peeri.push(e.peerid);
-            console.log('peer joined\tTotal Peers: ', peerids.length);
+app.get('/requesttypes.js', (req, res) => {
+    fs.writeFileSync(path.join(__dirname, 'modules', 'constants', 'requesttypes.js'), `const REQUEST_TYPES = ${JSON.stringify(REQUEST_TYPES)}`)
+    res.sendFile(path.join(__dirname, 'modules', 'constants', 'requesttypes.js'));
+});
 
-        });
+app.post('/manage', (req, res) => {
+    const payload = JSON.parse(req.body);
+    switch (payload.type) {
+        case REQUEST_TYPES.ADD_PEER_TO_SOCKET:
+            peerhandler.addPeerToSocket(payload.socket, payload.peer)
+                .then(peers => {
+                    // console.log('received a promise:', peers);
+                    res.send({ type: 'peers', data: peers });
+                    const sockets = peerhandler.getAllSockets();
+                    const peers_list = peerhandler.getAllPeers();
+                    for (let i = 0; i < sockets.length; i++) {
+                        const e = sockets[i];
+                        if (e !== null) {
+                            e.emit(REQUEST_TYPES.PEERS_LIST_UPDATED, peers_list);
+                        }
+                    }
+                })
+                .catch(err => { console.error('got an error: ', err) });
+            break;
+        default:
+            res.sendStatus(501);
+    }
+});
 
-        peerids.map((e, i) => {
-            e.socket.emit('joined', peeri);
-        });
-    });
+io.on('connection', socket => {
+
+    // console.log('socket ', socket.id, ' joined');
+    peerhandler.add(socket);
 
     socket.on('disconnect', () => {
-        console.log('socket left');
-        for (let i = 0; i < peerids.length; i++) {
-            if (peerids[i].socket.id === socket.id) {
-                peerids.splice(i, 1);
-                break;
+        // console.log('socket ', socket.id, ' disconnected');
+        peerhandler.remove(socket);
+        const sockets = peerhandler.getAllSockets();
+        const peers_list = peerhandler.getAllPeers();
+        for (let i = 0; i < sockets.length; i++) {
+            const e = sockets[i];
+            if (e !== null) {
+                e.emit(REQUEST_TYPES.PEERS_LIST_UPDATED, peers_list);
             }
         }
-        console.log('peer left\tTotal Peers: ', peerids.length);
-        let temppeer = [];
-        peerids.map(e => {
-            temppeer.push(e.peerid);
-            console.log(e.peerid);
-        });
-
-        peerids.map((e, i) => {
-            e.socket.emit('left', temppeer);
-        });
-
     });
 });
 
-http.listen(process.env.HTTP_PORT, () => {
-    console.log('App running on port: ', process.env.HTTP_PORT);
-});
+http_server.listen(process.env.HTTP_PORT, () => {
 
+    console.log('Server running on port:', process.env.HTTP_PORT);
+});

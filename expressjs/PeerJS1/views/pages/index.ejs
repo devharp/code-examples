@@ -6,9 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"
-        integrity="sha512-/xb5+PNOA079FJkngKI2jvID5lyiqdHXaUUcfmzE0X0BdpkgzIWHC59LOG90a2jDcOyRsd1luOr24UCCAG8NNw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js" integrity="sha512-/xb5+PNOA079FJkngKI2jvID5lyiqdHXaUUcfmzE0X0BdpkgzIWHC59LOG90a2jDcOyRsd1luOr24UCCAG8NNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
     <style>
         * {
@@ -16,13 +14,13 @@
             margin: 0;
             padding: 0;
         }
-
+        
         html,
         body {
             height: 100%;
             width: 100%;
         }
-
+        
         body {
             font-family: sans-serif;
         }
@@ -39,9 +37,9 @@
 
         const peer = new Peer({
             config: {
-                'iceServers': [
-                    { url: 'stun:stun.l.google.com:19302' }
-                ]
+                'iceServers': [{
+                    url: 'stun:stun.l.google.com:19302'
+                }]
             } /* Sample servers, please use appropriate ones */
         });
 
@@ -56,7 +54,13 @@
 
         const mycam = document.getElementById('my-cam');
 
-        navigator.mediaDevices.getUserMedia({ video: { width: 100, height: 100 }, audio: false })
+        navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: 500,
+                    height: 500
+                },
+                audio: false
+            })
             .then(stream => {
                 mycam.srcObject = stream;
                 mycam.onloadeddata = e => mycam.play();
@@ -72,7 +76,7 @@
                         rvid.srcObject = rstream;
                         call.on('close', () => {
                             console.log('peer left')
-                            // document.getElementById('vids').removeChild(rvid);
+                                // document.getElementById('vids').removeChild(rvid);
                         });
                     });
                 });
@@ -95,7 +99,10 @@
                         let found = false;
                         for (let j = 0; j < peerslist.length; j++) {
                             const f = peerslist[j];
-                            if (e === f) { found = true; break; }
+                            if (e === f) {
+                                found = true;
+                                break;
+                            }
                         }
                         if (found === false) {
                             // console.log('this id: ', e, ' left');
@@ -109,36 +116,39 @@
         function setVidElems() {
             setTimeout(() => {
                 const nodes = document.getElementById('vids').children;
-                if(peers.length !== nodes.length){
+                if (peers.length !== nodes.length) {
                     console.log('something is wrong, video elements are not updated correctly');
                     let temppeer = [];
-                    for(let i = 0; i < nodes.length; i++){
+                    for (let i = 0; i < nodes.length; i++) {
                         const e = nodes[i];
                         let found = false;
-                        if(e.id === 'my-cam'){
+                        if (e.id === 'my-cam') {
                             found = true;
+                        } else {
+                            peers.map(ee => {
+                                if (ee === e.id) {
+                                    found = true;
+                                }
+                            });
                         }
-                        else{
-                            peers.map(ee => {if(ee === e.id){ found = true; }});
-                        }
-                        if(found === false){
+                        if (found === false) {
                             e.remove();
                         }
                         console.log('got id here: ', found);
 
-                        const val = temppeer.filter(te => { return te === e.id });
-                        if(val.length === 0){
+                        const val = temppeer.filter(te => {
+                            return te === e.id
+                        });
+                        if (val.length === 0) {
                             temppeer.push(e.id);
-                        }
-                        else{
+                        } else {
                             e.remove();
                         }
-                        
+
                     }
                 }
             }, 500);
         }
-
     </script>
 </body>
 

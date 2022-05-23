@@ -1,0 +1,1 @@
+const REQUEST_TYPES = {"ADD_PEER_TO_SOCKET":"add-peer-to-socket","GET_PEERS":"get-peers","PEERS_LIST_UPDATED":"peers-list-updated"}
