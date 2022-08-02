@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.harp-theme-iconbutton-active {
+  color: rgb(24, 144, 255);
+  background-color: rgb(24, 144, 255, 0.2);
+}
