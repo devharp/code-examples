@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="p-2 d-flex justify-content-end">
+        <a href="/logout"><button class="btn btn-success">logout</button></a>
+    </div>
+    <div class="d-flex justify-content-end px-2 mb-3">
+        <div>
+            <span>Date:</span>
+            <span id="date-today"></span>
+        </div>
+    </div>
+    <div class="mb-3 p-2">
+        <span>I,</span>
+        <span id="name"></span>
+        of
+        <span>
+            <input type="text" id="college">
+        </span>
+        College will not be able to attend
+        <span>
+            <input type="text" id="batch">
+        </span>
+        batch from
+        <span><input id="fday" type="number" maxLength="2"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 6ch;"></span>
+        /
+        <span><input id="fmonth" type="number" maxLength="2"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 6ch;"></span>
+        /
+        <span><input id="fyear" type="number" maxLength="4"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 8ch;"></span>
+        to
+        <span><input id="tday" type="number" maxLength="2"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 6ch;"></span>
+        /
+        <span><input id="tmonth" type="number" maxLength="2"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 6ch;"></span>
+        /
+        <span><input id="tyear" type="number" maxLength="4"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                style="width: 8ch;"></span>
+    </div>
+    <div class="mb-3 p-2">
+        <span>Subject: </span>
+        <span>
+            <input type="text" id="subject">
+        </span>
+    </div>
+    <div class=" p-2">
+        For the following reason
+    </div>
+    <div class="mb-3 d-flex p-2">
+        <textarea class="flex-grow-1" id="reason" cols="30" rows="10" style="resize: none;"></textarea>
+    </div>
+    <div class="px-2 mb-1">Please do the needful & grant me leave</div>
+    <div class="px-2 mb-1">Feel free to contact me</div>
+    <div class="px-2 mb-1"><span>Contact No (Student):&nbsp;</span><span><input type="number" id="studentno"></span>
+    </div>
+    <div class="px-2 mb-1"><span>Mail ID (Student):&nbsp;</span><span id="student-mail">student@mail.com</span></div>
+    <div class="px-2 mb-1"><span>Parents No:&nbsp;</span><span><input type="number" id="parentno"></span></div>
+    <div class="px-2 mb-1"><span>Native Place:&nbsp;</span><span><input type="text" id="nativeplace"></span></div>
+    <div class="d-flex justify-content-center p-2">
+        <button onclick="sendLetter()" class="btn btn-success"><i class="fa fa-paper-plane me-2"
+                aria-hidden="true"></i>SEND</button>
+    </div>
+    <script>
+        let letterid;
+        const name = document.getElementById('name');
+        const collegee = document.getElementById('college');
+        const batche = document.getElementById('batch');
+        const frtodatee = {
+            from: {
+                day: document.getElementById('fday'),
+                month: document.getElementById('fmonth'),
+                year: document.getElementById('fyear')
+            },
+            to: {
+                day: document.getElementById('tday'),
+                month: document.getElementById('tmonth'),
+                year: document.getElementById('tyear')
+            }
+        }
+        const subjecte = document.getElementById('subject');
+        const reasone = document.getElementById('reason');
+        const studentnoe = document.getElementById('studentno');
+        const mailide = document.getElementById('student-mail');
+        const parentnoe = document.getElementById('parentno');
+        const nativeplacee = document.getElementById('nativeplace');
+        function init() {
+            
+            const datetd = document.getElementById('date-today');
+            const date = new Date();
+            datetd.innerHTML = `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`;
+            const queries = new URLSearchParams(window.location.search);
+            letterid = queries.get('id');
+            console.log(queries.get('id'));
+            if(letterid !== 'new'){
+                enterExistingData(letterid);
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/data');
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const payload = JSON.parse(xhr.response);
+                    // console.log(payload);
+                    name.innerHTML = payload.name;
+                }
+            }
+            xhr.send();
+        }
+        function sendLetter() {
+            const college = document.getElementById('college').value;
+            const batch = document.getElementById('batch').value;
+            const frtodate = {
+                from: {
+                    day: parseInt(document.getElementById('fday').value),
+                    month: parseInt(document.getElementById('fmonth').value),
+                    year: parseInt(document.getElementById('fyear').value)
+                },
+                to: {
+                    day: parseInt(document.getElementById('tday').value),
+                    month: parseInt(document.getElementById('tmonth').value),
+                    year: parseInt(document.getElementById('tyear').value)
+                }
+            }
+            const subject = document.getElementById('subject').value;
+            const reason = document.getElementById('reason').value;
+            const studentno = parseInt(document.getElementById('studentno').value);
+            const parentno = parseInt(document.getElementById('parentno').value);
+            const nativeplace = document.getElementById('nativeplace').value;
+            const letter = { college, batch, frtodate, subject, reason, studentno, parentno, nativeplace }
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/letter');
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState === XMLHttpRequest.DONE){
+                    if(xhr.status === 200){
+                        window.location.href = '/';
+                    }
+                }
+            }
+            xhr.send(JSON.stringify({ id: letterid, letter}));
+        
+        }
+        function enterExistingData(letterid){
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/data');
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState === XMLHttpRequest.DONE){
+                    try{
+                        const payload = JSON.parse(xhr.response);
+                        console.log(payload);
+                        for (const e of payload.letters) {
+                            const letter = JSON.parse(e.data);
+                            if(e.id === letterid){
+                                // console.log(letter);
+                                collegee.value = letter.college;
+                                batche.value = letter.batch;
+                                frtodatee.from.day.value = letter.frtodate.from.day;
+                                frtodatee.from.month.value = letter.frtodate.from.month;
+                                frtodatee.from.year.value = letter.frtodate.from.year;
+                                frtodatee.to.day.value = letter.frtodate.to.day;
+                                frtodatee.to.month.value = letter.frtodate.to.month;
+                                frtodatee.to.year.value = letter.frtodate.to.year;
+                                subjecte.value = letter.subject;
+                                reasone.value = letter.reason;
+                                studentnoe.value = letter.studentno;
+                                mailide.innerHTML = payload.email;
+                                parentnoe.value = letter.parentno;
+                                nativeplacee.value = letter.nativeplace;
+                            }
+                        }
+                    }
+                    catch(err){
+                        console.error(err);
+                    }
+                }
+            }
+            xhr.send();
+        }
+        init();
+
+    </script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+</body>
+
+</html>
