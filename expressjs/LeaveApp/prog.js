@@ -11,14 +11,14 @@ let db;
 const app = express();
 const secretkey = modules.genRanHex(50);
 
+app.set('view engine', 'ejs');
 app.use(cors({ origin: '*', credentials: true }));
 app.use(expresssession({ secret: secretkey, resave: true, saveUninitialized: true }));
 app.use(express.text())
-app.use('/', express.static(path.join(__dirname, 'public')));
 
 async function auth(req, res, next) {
     if (req.session.username === null || req.session.username === undefined) {
-        res.redirect('/login.html');
+        res.redirect('/login');
         return;
     }
     const username = (await getUsername(req.session.username)).username;
@@ -26,9 +26,42 @@ async function auth(req, res, next) {
         next();
         return;
     }
-    res.redirect('/login.html');
+    res.redirect('/login');
     return;
 }
+
+app.get('/', auth, (req, res) => {
+    res.render('private/index');
+});
+
+app.get('/letter', auth, (req, res) => {
+    res.render('private/letter');
+});
+
+app.get('/profile', auth, (req, res) => {
+    res.render('private/profile');
+});
+
+app.post('/profile', auth, async (req, res) => {
+    try {
+        const payload = JSON.parse(req.body);
+        await saveProfile(payload);
+        console.log(payload);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
+app.get('/login', (req, res) => {
+    res.render('public/login');
+});
+
+app.get('/signup', (req, res) => {
+    res.render('public/signup');
+});
 
 app.post('/login', async (req, res) => {
     try {
@@ -71,10 +104,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/', auth, (req, res) => {
-    res.sendFile(path.join(__dirname, 'private', 'index.html'));
-});
-
 app.get('/data', auth, async (req, res) => {
     try {
         const data = await getAllData(req.session.username);
@@ -105,7 +134,7 @@ app.post('/letter', auth, async (req, res) => {
     }
 });
 
-app.listen(process.env.HTTP_PORT, async function () {
+app.listen(process.env.HTTP_PORT, '0.0.0.0', async function () {
     try {
         db = new sqlite.Database(process.env.DATABASE_LOCATION);
         console.log('listening on port: ', process.env.HTTP_PORT);
@@ -144,14 +173,14 @@ function addUser(payload) {
 function getAllData(username) {
     return new Promise((resolve, reject) => {
         let data = {};
-        db.all(`select * from users where username='${username}'`, (err, rows) => {
+        db.all(`select id, username, name, email from users where username='${username}'`, (err, rows) => {
             if (err) {
                 reject(err);
                 return;
             }
             data = rows[0];
             db.all(`select id, data from leaveletter where userid='${data.id}'`, (err, rows) => {
-                if(err){
+                if (err) {
                     reject(err);
                     return;
                 }
@@ -169,23 +198,23 @@ function writeLetter(userid, payload) {
         // const clob = (JSON.stringify(payload.letter));
         let letterid = (payload.id === 'new') ? modules.genRanHex(10) : payload.id;
 
-        if(payload.id === 'new'){
+        if (payload.id === 'new') {
             db.exec(`INSERT INTO leaveletter(id, userid, data) \
             VALUES('${letterid}', '${userid}', '${JSON.stringify(payload.letter)}')`,
-            (err) => {
-                if(err){
-                    reject(err);
+                (err) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(true);
                     return;
-                }
-                resolve(true);
-                return;
-            });
+                });
             return;
         }
-        else{
+        else {
 
             db.exec(`UPDATE leaveletter SET data='${JSON.stringify(payload.letter)}' WHERE id='${payload.id}'`, (err) => {
-                if(err){
+                if (err) {
                     reject(err);
                     return;
                 }
@@ -194,5 +223,35 @@ function writeLetter(userid, payload) {
             });
         }
 
+    });
+}
+
+function saveProfile(payload) {
+    return new Promise((resolve, reject) => {
+        try {
+            if(payload.passlatch === true){
+                const query = `UPDATE users SET password='${payload.newpassword}', username='${payload.username}', name='${payload.name}', email='${payload.email}' WHERE id='${payload.id}' AND password='${payload.currentpassword}'`
+                db.exec(query, (err) => {
+                    if(err){
+                        reject(err);
+                        return;
+                    }
+                    resolve();
+                });
+            }
+            else if(payload.passlatch === false){
+                const query = `UPDATE users SET username='${payload.username}', name='${payload.name}', email='${payload.email}' WHERE id='${payload.id}'`
+                db.exec(query, (err) => {
+                    if(err){
+                        reject(err);
+                        return;
+                    }
+                    resolve();
+                });
+            }
+            else{
+                reject(false);
+            }
+        } catch (err) { reject(err); }
     });
 }

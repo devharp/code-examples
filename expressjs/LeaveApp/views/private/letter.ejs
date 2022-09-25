@@ -6,12 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Application</title>
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+    <%- include('../partials/mdb_link') %>
+
 
     <style>
         * {
@@ -25,13 +21,32 @@
             height: 100%;
             width: 100%;
         }
+        @media print{
+            html, body{
+                /* height: 29.7cm; */
+                width: 21cm;
+            }
+            .hide-print{
+                display: none !important;
+            }
+            input{
+                border: none;
+            }
+            .center-print{
+                text-align: center;
+            }
+            .date{
+                text-align: right;
+            }
+            textarea{
+                border: none;
+            }
+        }
     </style>
 </head>
 
 <body class="">
-    <div class="p-2 d-flex justify-content-end">
-        <a href="/logout"><button class="btn btn-success">logout</button></a>
-    </div>
+    <%- include('../partials/navbar') %>
     <div class="d-flex justify-content-end px-2 mb-3">
         <div>
             <span>Date:</span>
@@ -43,34 +58,34 @@
         <span id="name"></span>
         of
         <span>
-            <input type="text" id="college">
+            <input type="text" id="college" class="center-print">
         </span>
         College will not be able to attend
         <span>
             <input type="text" id="batch">
         </span>
         batch from
-        <span><input id="fday" type="number" maxLength="2"
+        <span class="ms-1"><input class="date" id="fday" type="number" maxLength="2"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 6ch;"></span>
         /
-        <span><input id="fmonth" type="number" maxLength="2"
+        <span class="ms-1"><input class="date" id="fmonth" type="number" maxLength="2"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 6ch;"></span>
         /
-        <span><input id="fyear" type="number" maxLength="4"
+        <span><input class="date" id="fyear" type="number" maxLength="4"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 8ch;"></span>
         to
-        <span><input id="tday" type="number" maxLength="2"
+        <span class="ms-1"><input class="date" id="tday" type="number" maxLength="2"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 6ch;"></span>
         /
-        <span><input id="tmonth" type="number" maxLength="2"
+        <span class="ms-1"><input class="date" id="tmonth" type="number" maxLength="2"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 6ch;"></span>
         /
-        <span><input id="tyear" type="number" maxLength="4"
+        <span><input class="date" id="tyear" type="number" maxLength="4"
                 oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 style="width: 8ch;"></span>
     </div>
@@ -93,9 +108,25 @@
     <div class="px-2 mb-1"><span>Mail ID (Student):&nbsp;</span><span id="student-mail">student@mail.com</span></div>
     <div class="px-2 mb-1"><span>Parents No:&nbsp;</span><span><input type="number" id="parentno"></span></div>
     <div class="px-2 mb-1"><span>Native Place:&nbsp;</span><span><input type="text" id="nativeplace"></span></div>
-    <div class="d-flex justify-content-center p-2">
-        <button onclick="sendLetter()" class="btn btn-success"><i class="fa fa-paper-plane me-2"
-                aria-hidden="true"></i>SEND</button>
+    <div class="px-2 mb-1"><span>Regards&nbsp;</span></div>
+    <div class="px-2 mb-1 d-flex justify-content-between">
+        <div class="d-flex flex-column">
+            <div class="mb-2">Course Name</div>
+            <span>1. <input type="text" id="cn1" class="mb-2"></span>
+            <span>2. <input type="text" id="cn2" class="mb-2"></span>
+            <span>3. <input type="text" id="cn3" class="mb-2"></span>
+        </div>
+        <div class="d-flex flex-column">
+            <div class="mb-2">Batch Code</div>
+            <input type="text" id="btc1" class="mb-2">
+            <input type="text" id="btc2" class="mb-2">
+            <input type="text" id="btc3" class="mb-2">
+        </div>
+        <div>Trainers Sign</div>
+    </div>
+    <div class="d-flex justify-content-center p-2 hide-print">
+        <button onclick="sendLetter()" class="mx-2 btn btn-success"><i class="fa fa-paper-plane me-2" aria-hidden="true"></i>SEND</button>
+        <button onclick="window.print();" class="mx-2 btn btn-primary"><i class="fa fa-print me-2" aria-hidden="true"></i>Print</button>
     </div>
     <script>
         let letterid;
@@ -120,6 +151,17 @@
         const mailide = document.getElementById('student-mail');
         const parentnoe = document.getElementById('parentno');
         const nativeplacee = document.getElementById('nativeplace');
+
+        const btce = [
+            document.getElementById('btc1'),
+            document.getElementById('btc2'),
+            document.getElementById('btc3')
+        ]
+        const cne = [
+            document.getElementById('cn1'),
+            document.getElementById('cn2'),
+            document.getElementById('cn3')
+        ]
         function init() {
             
             const datetd = document.getElementById('date-today');
@@ -163,8 +205,14 @@
             const studentno = parseInt(document.getElementById('studentno').value);
             const parentno = parseInt(document.getElementById('parentno').value);
             const nativeplace = document.getElementById('nativeplace').value;
-            const letter = { college, batch, frtodate, subject, reason, studentno, parentno, nativeplace }
+
+            const btc = [btce[0].value, btce[1].value, btce[2].value]
+            const cn = [cne[0].value, cne[1].value, cne[2].value]
+
+            const letter = { college, batch, frtodate, subject, reason, studentno, parentno, nativeplace, btc: btc, cn: cn }
             
+
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/letter');
             xhr.onreadystatechange = () => {
@@ -203,6 +251,13 @@
                                 mailide.innerHTML = payload.email;
                                 parentnoe.value = letter.parentno;
                                 nativeplacee.value = letter.nativeplace;
+                                btce[0].value = letter.btc[0];
+                                btce[1].value = letter.btc[1];
+                                btce[2].value = letter.btc[2];
+                                cne[0].value = letter.cn[0];
+                                cne[1].value = letter.cn[1];
+                                cne[2].value = letter.cn[2];
+                                // console.log(letter.btc);
                             }
                         }
                     }
@@ -216,8 +271,7 @@
         init();
 
     </script>
-    <!-- MDB -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+    <%- include('../partials/mdb_script') %>
 </body>
 
 </html>

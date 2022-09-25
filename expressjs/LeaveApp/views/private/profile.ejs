@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <%- include('../partials/mdb_link') %>
+
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+</head>
+
+<body class="">
+    <%- include('../partials/navbar') %>
+        <div class="d-flex px-2 mb-3">
+            <h1>Edit Profile</h1>
+        </div>
+        <div class="p-2 mb-3">
+            <div class="form-outline mb-3" style="width: 15em;">
+                <input type="text" class="form-control" id="username">
+                <label for="username" class="form-label">username</label>
+            </div>
+            <div class="form-outline mb-3" style="width: 15em;">
+                <input type="text" class="form-control" id="name">
+                <label for="name" class="form-label">name</label>
+            </div>
+            <div class="form-outline mb-3" style="width: 15em;">
+                <input type="email" class="form-control" id="email">
+                <label for="email" class="form-label">email</label>
+            </div>
+            <div class="mb-3" style="width: 15em;">
+                <button onclick="togglePassBox()" class="btn btn-primary w-100" id="pass-btn">change password<i
+                        class="fa fa-lock ms-1"></i></button>
+            </div>
+            <div class="form-outline mb-3 pass-box d-none" style="width: 15em;">
+                <input type="text" class="form-control" id="cpass">
+                <label for="cpass" class="form-label">Current Password</label>
+            </div>
+            <div class="form-outline mb-3 pass-box d-none" style="width: 15em;">
+                <input type="text" class="form-control" id="npass">
+                <label for="npass" class="form-label">New Password</label>
+            </div>
+            <div class="form-outline mb-3 pass-box d-none" style="width: 15em;">
+                <input type="text" class="form-control" id="cnpass">
+                <label for="cnpass" class="form-label">Confirm New Password</label>
+            </div>
+            <div class="my-3 d-flex justify-content-center">
+                <button onclick="saveProfile()" class="btn btn-success"><i class="fas fa-save me-1"></i>Save</button>
+            </div>
+        </div>
+        <script>
+            let userid = null;
+            const username = document.getElementById('username');
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+
+            const elements = document.getElementsByClassName('pass-box');
+            const passbtn = document.getElementById('pass-btn');
+            const cpass = document.getElementById('cpass');
+            const npass = document.getElementById('npass');
+            const cnpass = document.getElementById('cnpass');
+            let passlatch = false;
+            function togglePassBox() {
+                for (const e of elements) {
+                    if (e.classList.contains('d-none')) {
+                        e.classList.remove('d-none');
+                        passbtn.innerHTML = 'Don&apos;t change password<i class="fa fa-lock ms-1">';
+                        passlatch = true;
+                    }
+                    else {
+                        e.classList.add('d-none');
+                        passbtn.innerHTML = 'change password<i class="fa fa-lock ms-1">';
+                        passlatch = false;
+                    }
+                }
+            }
+            function saveProfile() {
+                let payload = {};
+                if (username.value.length > 0 && name.value.length > 0 && email.value.length > 0) {
+                    payload.username = username.value;
+                    payload.name = name.value;
+                    payload.email = email.value;
+                }
+                else {
+                    alertForValues();
+                    return;
+                }
+                if (passlatch) {
+                    if (cpass.value.length > 0 && npass.value.length > 0 && cnpass.value.length > 0 && npass.value === cnpass.value) {
+                        payload.currentpassword = cpass.value;
+                        payload.newpassword = npass.value;
+                    }
+                    else {
+                        alertForValues();
+                        return;
+                    }
+                }
+                payload.passlatch = passlatch;
+
+                try {
+
+                    if (userid !== null) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/profile');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    window.location.href = '/';
+                                }
+                                else {
+                                    alert('Some Error Occurred while saving the profile');
+                                }
+                            }
+                        }
+                        payload.id = userid;
+                        xhr.send(JSON.stringify(payload));
+                    }
+                }
+                catch (err) {
+                    alert('Some Error Occurred while saving the profile');
+                }
+            }
+            function alertForValues() {
+                alert('Check the entered the values');
+            }
+            function init() {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', '/data');
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        try {
+
+                            const payload = JSON.parse(xhr.response);
+                            console.log(payload);
+                            username.value = payload.username;
+                            username.focus();
+                            name.value = payload.name;
+                            name.focus();
+                            email.value = payload.email;
+                            email.focus();
+                            userid = payload.id;
+                        }
+                        catch (err) {
+                            console.error();
+                        }
+                    }
+                }
+                xhr.send();
+            }
+            init();
+        </script>
+        <%- include('../partials/mdb_script') %>
+</body>
+
+</html>
