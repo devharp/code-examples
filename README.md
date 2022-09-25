@@ -1,5 +1,4 @@
 # Code Examples
 In case, 
-	I forgot
 	I need an example of any code
-	I need my svg anime as images
+	If you are seeing this, I probably kept this page public by mistake or intentionally otherwise you would not be able to see this repo in most cases.
