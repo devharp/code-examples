@@ -7,10 +7,24 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async getTrending(): Promise<Object>{
+  async getTrending(query: any = null): Promise<Object>{
     const link = `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.TMDB_API_KEY}`
-
     const res = await fetch(link);
-    return await res.json();
+    const payload = await res.json();
+
+    if(query === undefined || query === null){
+      return payload;
+    }
+
+    let temp = [];
+    for (const e of payload.results) {
+      const regex = new RegExp(`.*?${query}.*`, 'gi');
+      if(regex.exec(e.title || e.name) !== null){
+        temp.push(e);
+      }
+    }
+
+    return {...payload, results: temp};
+
   }
 }

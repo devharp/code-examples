@@ -1,0 +1,4 @@
+<app-search-section (searchbtn)="searchYTResults($event)" ></app-search-section>
+<div style="display: flex; flex-wrap: wrap;">
+    <app-yt-card [title]="e.title" [channel]="e.channel" [views]="e.views" [url]="e.url" *ngFor="let e of videos"></app-yt-card>
+</div>
