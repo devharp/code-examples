@@ -16,6 +16,12 @@ npm i -g @nestjs/cli
 nest new project-name
 ```
 
+## Open Directory
+
+```bash
+cd project-name
+```
+
 ### Running the application
 
 ```bash
@@ -31,19 +37,19 @@ npm run start:dev
 ### Generating a Module
 
 ```bash
-nest generate module books
+nest generate module module-name
 ```
 
 ### Generating a Controller (Routes)
 
 ```bash
-nest generate controller books
+nest generate controller controlller-name
 ```
 
 ### Generating a service
 
 ```bash
-nest generate service books
+nest generate service service-name
 ```
 
 ## Angular
