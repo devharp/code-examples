@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MoviesService } from './movies.service';
+import { ElementType } from 'src/app/interface/element-type.interface';
 
 @Component({
   selector: 'app-movies',
@@ -7,12 +8,13 @@ import { MoviesService } from './movies.service';
   styleUrls: ['./movies.component.scss']
 })
 export class MoviesComponent {
-  movies = [0, 2, 3]
-  
+  movies: Array<ElementType> = [];
   constructor(public service: MoviesService){
   }
   
   ngOnInit(){
-    this.service.setData('herere');
+    this.service.observer.subscribe(res => {
+      this.movies = res;
+    });
   }
 }
